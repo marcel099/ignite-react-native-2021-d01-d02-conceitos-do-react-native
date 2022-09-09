@@ -20,17 +20,29 @@ export function Home() {
   }
 
   function handleToggleTaskDone(id: number) {
-    //TODO - toggle task done if exists
+    setTasks(previousTasks => {
+      const updatedTasks = previousTasks.map(task => ({ ...task }));
+      const foundTask = updatedTasks.find(task => task.id === id);
+
+      if (foundTask) {
+        foundTask.done = !foundTask.done;
+      }
+
+      return updatedTasks;
+    })
   }
 
   function handleRemoveTask(id: number) {
     setTasks(previousTasks => {
-      const taskToRemoveIdx = previousTasks
+      const updatedTasks = previousTasks.map(task => ({ ...task }));
+      const taskToRemoveIdx = updatedTasks
         .findIndex(task => task.id === id);
 
-      previousTasks.splice(taskToRemoveIdx, 1);
+      if (taskToRemoveIdx !== -1) {
+        updatedTasks.splice(taskToRemoveIdx, 1);
+      }
 
-      return previousTasks;
+      return updatedTasks;
     });
   }
 
