@@ -24,7 +24,14 @@ export function Home() {
   }
 
   function handleRemoveTask(id: number) {
-    //TODO - remove task from state
+    setTasks(previousTasks => {
+      const taskToRemoveIdx = previousTasks
+        .findIndex(task => task.id === id);
+
+      previousTasks.splice(taskToRemoveIdx, 1);
+
+      return previousTasks;
+    });
   }
 
   return (
