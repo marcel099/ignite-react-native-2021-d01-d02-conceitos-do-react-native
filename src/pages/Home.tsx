@@ -5,6 +5,11 @@ import { Header } from '../components/Header';
 import { Task, TasksList } from '../components/TasksList';
 import { TodoInput } from '../components/TodoInput';
 
+export interface HandleEditTaskProps {
+  taskId: number;
+  taskNewTitle: string;
+}
+
 export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -27,6 +32,19 @@ export function Home() {
         done: false,
       }
     ]);
+  }
+
+  function handleEditTask({ taskId, taskNewTitle }: HandleEditTaskProps) {
+    setTasks(previousTasks => {
+      const updatedTasks = previousTasks.map(task => ({ ...task }));
+      const foundTask = updatedTasks.find(task => task.id === taskId);
+
+      if (foundTask) {
+        foundTask.title = taskNewTitle;
+      }
+
+      return updatedTasks;
+    })
   }
 
   function handleToggleTaskDone(id: number) {
@@ -80,7 +98,8 @@ export function Home() {
       <TasksList 
         tasks={tasks} 
         toggleTaskDone={handleToggleTaskDone}
-        removeTask={handleRemoveTask} 
+        removeTask={handleRemoveTask}
+        editTask={handleEditTask}
       />
     </View>
   )
