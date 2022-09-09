@@ -43,17 +43,32 @@ export function Home() {
   }
 
   function handleRemoveTask(id: number) {
-    setTasks(previousTasks => {
-      const updatedTasks = previousTasks.map(task => ({ ...task }));
-      const taskToRemoveIdx = updatedTasks
-        .findIndex(task => task.id === id);
-
-      if (taskToRemoveIdx !== -1) {
-        updatedTasks.splice(taskToRemoveIdx, 1);
-      }
-
-      return updatedTasks;
-    });
+    Alert.alert(
+      'Remover item',
+      'Tem certeza que você deseja remover esse item?',
+      [
+        {
+          text: 'Não',
+          style: 'cancel',
+        },
+        {
+          text: 'Sim',
+          onPress: () => {
+            setTasks(previousTasks => {
+              const updatedTasks = previousTasks.map(task => ({ ...task }));
+              const taskToRemoveIdx = updatedTasks
+                .findIndex(task => task.id === id);
+        
+              if (taskToRemoveIdx !== -1) {
+                updatedTasks.splice(taskToRemoveIdx, 1);
+              }
+        
+              return updatedTasks;
+            });
+          }
+        }
+      ]
+    );
   }
 
   return (
